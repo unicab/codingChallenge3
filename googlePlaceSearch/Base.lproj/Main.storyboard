@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="googlePlaceSearch" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="V2O-CE-ujd">
+                                <rect key="frame" x="0.0" y="20" width="375" height="597"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0ri-sd-ARV">
+                                <rect key="frame" x="329" y="40" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="eJu-9o-Son"/>
+                                    <constraint firstAttribute="height" constant="30" id="pU6-bN-H0r"/>
+                                </constraints>
+                                <state key="normal" image="navIcon"/>
+                                <connections>
+                                    <action selector="navigateToCurrentLocation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oFE-9V-TE8"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wu7-o8-wbc">
+                                <rect key="frame" x="0.0" y="20" width="375" height="597"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Egc-k1-vhA">
+                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                                <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="yZn-9w-FQt"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Wu7-o8-wbc" firstAttribute="leading" secondItem="V2O-CE-ujd" secondAttribute="leading" id="5CF-VB-Vlu"/>
+                            <constraint firstAttribute="bottom" secondItem="Egc-k1-vhA" secondAttribute="bottom" id="7U5-Sh-AVU"/>
+                            <constraint firstItem="Egc-k1-vhA" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Ele-cw-fde"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="V2O-CE-ujd" secondAttribute="trailing" constant="-16" id="LN1-xs-AyT"/>
+                            <constraint firstAttribute="trailing" secondItem="Egc-k1-vhA" secondAttribute="trailing" id="S1j-vJ-p2W"/>
+                            <constraint firstItem="0ri-sd-ARV" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="bxt-p3-W1S"/>
+                            <constraint firstItem="Wu7-o8-wbc" firstAttribute="bottom" secondItem="V2O-CE-ujd" secondAttribute="bottom" id="iuC-vg-Bsw"/>
+                            <constraint firstItem="Wu7-o8-wbc" firstAttribute="top" secondItem="V2O-CE-ujd" secondAttribute="top" id="jdI-Ca-50x"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="V2O-CE-ujd" secondAttribute="bottom" constant="50" id="kcZ-Ux-hnL"/>
+                            <constraint firstItem="V2O-CE-ujd" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="mTm-Vs-Tgq"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="0ri-sd-ARV" secondAttribute="trailing" id="uWG-ua-oMG"/>
+                            <constraint firstItem="V2O-CE-ujd" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="ufd-Z0-YiW"/>
+                            <constraint firstItem="Wu7-o8-wbc" firstAttribute="trailing" secondItem="V2O-CE-ujd" secondAttribute="trailing" id="w0g-7T-VLf"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="chromeView" destination="Wu7-o8-wbc" id="G4n-XD-FY7"/>
+                        <outlet property="mapView" destination="V2O-CE-ujd" id="1Hm-fr-WST"/>
+                        <outlet property="resultsContainer" destination="Egc-k1-vhA" id="LHy-hC-ON1"/>
+                        <outlet property="resultsContainerHeightConstraint" destination="yZn-9w-FQt" id="jS0-gn-jl1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="navIcon" width="128" height="128"/>
+    </resources>
+</document>
