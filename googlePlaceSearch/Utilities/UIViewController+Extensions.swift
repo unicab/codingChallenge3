@@ -12,6 +12,7 @@ import UIKit
 
 extension UIViewController {
     
+    // set a viewController inside a container view
     public func setViewController(_ vc: UIViewController?, inContainer: UIView, insets: UIEdgeInsets = .zero) {
         guard let vc = vc else { return }
         

@@ -25,6 +25,7 @@ class ViewController: UIViewController {
     fileprivate var resultsNav: UINavigationController?
     fileprivate let resultsVC = ResultsViewController()
     
+    // changing viewMode will animate the resultsView
     fileprivate var viewMode: ViewMode? {
         didSet {
             setupView(forViewMode: viewMode!)
@@ -38,9 +39,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
         UIApplication.shared.statusBarStyle = .default
         
+        // stylizing view
         resultsContainer.layer.shadowOffset = .zero
         resultsContainer.layer.shadowRadius = 3
         resultsContainer.layer.shadowOpacity = 0.6
@@ -48,14 +49,17 @@ class ViewController: UIViewController {
         mapView.showsUserLocation = true
         mapView.delegate = ViewController.mapViewDelegate
         
+        // callback when an annotation is selected
         ViewController.mapViewDelegate.showDetails = { [weak self] place_id in
             self?.showDetailsForPlaceId(place_id)
         }
         
+        // setup views
         setupView(forViewMode: .mapView)
         setupResultsViewController()
         setupLocationManager()
         
+        // add tapgesture to chromeView
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideChromeView))
         chromeView.addGestureRecognizer(tapGesture)
     }
@@ -63,6 +67,7 @@ class ViewController: UIViewController {
 
 extension ViewController {
     
+    // start locations discovery and focus on user's location
     fileprivate func setupLocationManager() {
         LocationManager.startDiscovery()
         LocationManager.locationDidUpdate = { [weak self] center in
@@ -75,25 +80,22 @@ extension ViewController {
         }
     }
     
+    // setup results viewController
     fileprivate func setupResultsViewController() {
         self.resultsNav = UINavigationController(rootViewController: resultsVC)
         resultsNav?.isNavigationBarHidden = true
         
-        resultsVC.toggleResultView = { [weak self] expand in
+        // toggle viewMode
+        resultsVC.toggleViewMode = { [weak self] expand in
             self?.viewMode = expand ? .searchView : .mapView
         }
         
-        resultsVC.showMap = { [weak self] in
-            self?.viewMode = .mapView
-            UIView.animate(withDuration: 0.2) {
-                self?.view.layoutIfNeeded()
-            }
+        // // select annotation on mapView and show location details
+        resultsVC.selectedPlaceId = { [weak self] placeId in
+            self?.selectAnnotation(forPlaceId: placeId)
         }
         
-        resultsVC.showDetails = { [weak self] placeId in
-            self?.showDetailsForPlaceId(placeId)
-        }
-        
+        // add annotations on mapView for found locations
         resultsVC.foundLocations = { [weak self] locations in
             self?.addAnnotations(forLocations: locations)
         }
@@ -104,6 +106,15 @@ extension ViewController {
 
 extension ViewController {
     
+    // select annotation for place_id
+    fileprivate func selectAnnotation(forPlaceId placeId: String) {
+        let selectedAnn = mapView.annotations.first { ($0 as? CustomPointAnnotation)?.place_id == placeId }
+        if let selected = selectedAnn {
+            mapView.selectAnnotation(selected, animated: true)
+        }
+    }
+    
+    // show delails for the selected place_id
     fileprivate func showDetailsForPlaceId(_ placeId: String) {
         let detailsVC = DetailsViewController()
         self.resultsNav?.pushViewController(detailsVC, animated: true)
@@ -113,20 +124,30 @@ extension ViewController {
             self.resultsNav?.viewControllers = navChild
         }
         
+        // change viewMode to detailsView
         viewMode = .detailsView
+        
+        // request for location details
         GooglePlaces.shared.getDetails(placeId: placeId) { details, error in
             guard let details = details else { return }
             
             dispatchMainAsync {
-                detailsVC.setDetails(details)
+                detailsVC.loadViewIfNeeded()        // make sure details viewController is loaded
+                detailsVC.setDetails(details)       // setup location details
             }
         }
+        
+        // select annotation on mapView
+        selectAnnotation(forPlaceId: placeId)
     }
     
+    // add annotations on mapView
     fileprivate func addAnnotations(forLocations locations: [GoogleLocation]) {
         LocationManager.startDiscovery()
+        // remove existing annotaions
         self.mapView.removeAnnotations(self.mapView.annotations)
         
+        // add new annotations
         for loc in locations {
             guard let lat = loc.lat, let lng = loc.lng else { continue }
             let annotation = CustomPointAnnotation()
@@ -137,16 +158,24 @@ extension ViewController {
         }
     }
     
+    // hide chromeView when it is tapped
     @objc fileprivate func hideChromeView() {
         resultsVC.toggleButtonTapped(nil)
     }
     
+    // enable chromeView
     fileprivate func enableChromeView(_ enable: Bool) {
         chromeView.isUserInteractionEnabled = enable
         let alpha: CGFloat = enable ? 0.3 : 0.0
-        chromeView.backgroundColor = UIColor.black.withAlphaComponent(alpha)
+        
+        UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseInOut], animations: { [weak self] in
+            self?.chromeView.backgroundColor = UIColor.black.withAlphaComponent(alpha)
+        }) { [weak self] complete in
+            self?.chromeView.backgroundColor = UIColor.black.withAlphaComponent(alpha)
+        }
     }
     
+    // different viewMode. animate the resultViews container height
     fileprivate func setupView(forViewMode mode: ViewMode) {
         switch mode {
         case .mapView:

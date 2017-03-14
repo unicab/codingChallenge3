@@ -34,6 +34,7 @@ class DetailsViewController: UIViewController {
         
     }
     
+    // setup view elements
     func setDetails(_ details: GoogleLocationDetails) {
         self.nameLabel.text = details.name
         self.phoneLabel.text = details.phoneNumber

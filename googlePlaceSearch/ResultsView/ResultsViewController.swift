@@ -17,24 +17,23 @@ class ResultsViewController: UIViewController {
     @IBOutlet weak var topView: UIView!
     @IBOutlet weak var toggleButton: UIButton!
     
+    // callbacks and variable
     fileprivate var locations: [GoogleLocation] = []
-    var showDetails: ((_ placeId: String) -> Void)?
+    var selectedPlaceId: ((_ placeId: String) -> Void)?
     var foundLocations: (([GoogleLocation]) -> Void)?
-    var showMap: (() -> Void)?
-    var toggleResultView: ((_ expand: Bool) -> Void)?
+    var toggleViewMode: ((_ expand: Bool) -> Void)?
     
+    // search for starbucks locations
     @IBAction func searchButtonTapped(_ sender: Any) {
-        self.search(key: "starbucks") { [weak self] in
-            guard let sself = self else { return }
-            sself.foundLocations?(sself.locations)
-        }
+        self.searchForStarbucks()
     }
     
+    // switching between different viewMode
     @IBAction func toggleButtonTapped(_ sender: Any?) {
         let expand = toggleButton.imageView?.image == #imageLiteral(resourceName: "upIcon")
         let image = expand ? #imageLiteral(resourceName: "closeIcon3") : #imageLiteral(resourceName: "upIcon")
         toggleButton.setImage(image, for: UIControlState())
-        toggleResultView?(expand)
+        toggleViewMode?(expand)
     }
     
     init() {
@@ -48,38 +47,50 @@ class ResultsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // setup tableView
         tableView.register(UINib(nibName: "ResultCell", bundle: nil), forCellReuseIdentifier: "cell")
+        tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
         
         do {
+            // fetch data and setup locations on mapView
             let locationList = try CoreDataStorage.fetchData()
             setupLocations(fromLocationList: locationList)
         } catch {
-            
+            // if no data found search for starbucks near user's location
+            searchForStarbucks()
         }
     }
 }
 
 extension ResultsViewController {
     
-    fileprivate func search(key: String, completion: @escaping () -> Void) {
+    // search for starbucks locations 
+    fileprivate func searchForStarbucks() {
+        self.search(key: "starbucks")
+    }
+    
+    // search for location and store the respond
+    fileprivate func search(key: String) {
         guard let curLocation = LocationManager.currentLocation else { return }
         
+        // search request
         GooglePlaces.shared.search(location: curLocation, radius: 500, query: key) { [weak self] list, error in
             guard let list = list else { return }
             
+            // store procedures
             dispatchMainAsync {
-                try? CoreDataStorage.deleteData()
-                try? CoreDataStorage.save(locationList: list)
-                self?.setupLocations(fromLocationList: list)
-                completion()
+                try? CoreDataStorage.deleteData()               // delete current data
+                try? CoreDataStorage.save(locationList: list)   // store new data
+                self?.setupLocations(fromLocationList: list)    // callback to create annotations on mapView
             }
         }
-
     }
     
+    // update tableView with new locations
     fileprivate func setupLocations(fromLocationList list: GoogleLocationList?) {
         guard let locs = list?.locations else { return }
         self.locations = locs
+        foundLocations?(locs)
         tableView.reloadData()
     }
 }
@@ -97,7 +108,7 @@ extension ResultsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let placeId = locations[indexPath.row].place_id else { return }
-        showDetails?(placeId)
+        selectedPlaceId?(placeId)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

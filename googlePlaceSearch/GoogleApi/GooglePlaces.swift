@@ -34,10 +34,11 @@ public class GooglePlaces {
     }
 
     fileprivate init() { }
+}
 
-    // ------------------------------------------------------------------------------------------
-    // Google Places search with callback
-    // ------------------------------------------------------------------------------------------
+extension GooglePlaces {
+
+    // search request
     func search(location: CLLocationCoordinate2D, radius: Int, query: String,
         completion: @escaping (GoogleLocationList?, Error?) -> Void) {
         guard let key = GooglePlaces.key else {
@@ -78,6 +79,7 @@ public class GooglePlaces {
         task.resume()
     }
     
+    // get detail request
     func getDetails(placeId id: String, completion: @escaping (GoogleLocationDetails?, Error?) -> Void) {
         guard let key = GooglePlaces.key else {
             completion(nil, NetworkRequestError.invalidKey)

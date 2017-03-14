@@ -15,6 +15,7 @@ class ResultCell: UITableViewCell {
     @IBOutlet weak var mainLabel: UILabel!
     @IBOutlet weak var subLabel: UILabel!
     
+    // set view elements
     var model: GoogleLocation? {
         didSet {
             mainLabel.text = model?.name

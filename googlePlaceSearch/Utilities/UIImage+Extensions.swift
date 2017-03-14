@@ -11,6 +11,7 @@ import UIKit
 
 extension UIImage {
     
+    // resizing an image
     public func resize(_ size: CGSize) -> UIImage? {
         UIGraphicsBeginImageContext(size)
         self.draw(in: CGRect(origin: .zero, size: size))

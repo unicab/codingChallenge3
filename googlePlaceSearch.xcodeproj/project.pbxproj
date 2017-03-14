@@ -45,6 +45,7 @@
 		D9C4C4821E7792F90078804B /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C4C4811E7792F90078804B /* DetailsViewController.swift */; };
 		D9C4C4841E7792FF0078804B /* DetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9C4C4831E7792FF0078804B /* DetailsView.xib */; };
 		D9C4C4861E77ACB40078804B /* MapViewComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C4C4851E77ACB30078804B /* MapViewComponents.swift */; };
+		D9C4C4881E789B220078804B /* UINavigationController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C4C4871E789B220078804B /* UINavigationController+Extensions.swift */; };
 		D9F4D0731E738EEC005BD910 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F4D0721E738EEC005BD910 /* AppDelegate.swift */; };
 		D9F4D0751E738EEC005BD910 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F4D0741E738EEC005BD910 /* ViewController.swift */; };
 		D9F4D0781E738EEC005BD910 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9F4D0761E738EEC005BD910 /* Main.storyboard */; };
@@ -101,6 +102,7 @@
 		D9C4C4811E7792F90078804B /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		D9C4C4831E7792FF0078804B /* DetailsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailsView.xib; sourceTree = "<group>"; };
 		D9C4C4851E77ACB30078804B /* MapViewComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewComponents.swift; sourceTree = "<group>"; };
+		D9C4C4871E789B220078804B /* UINavigationController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extensions.swift"; sourceTree = "<group>"; };
 		D9F4D06F1E738EEC005BD910 /* googlePlaceSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = googlePlaceSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9F4D0721E738EEC005BD910 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D9F4D0741E738EEC005BD910 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 				D9C4C4641E7555170078804B /* UIViewController+Extensions.swift */,
 				D9C4C4731E75CDDD0078804B /* UIView+Extensions.swift */,
 				D9C4C47A1E7782420078804B /* UIImage+Extensions.swift */,
+				D9C4C4871E789B220078804B /* UINavigationController+Extensions.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -246,8 +249,8 @@
 				D9F4D07E1E738EEC005BD910 /* LaunchScreen.storyboard */,
 				D9C4C4781E7673060078804B /* Info.plist */,
 				D9C4C4491E7552FF0078804B /* Resources */,
-				D9C4C4801E7792EF0078804B /* DetailsView */,
 				D9C4C4681E755A5B0078804B /* ResultsView */,
+				D9C4C4801E7792EF0078804B /* DetailsView */,
 				D9C4C45B1E7553DC0078804B /* GoogleApi */,
 				D9C4C4401E75526E0078804B /* Utilities */,
 				D9C4C4341E7551F40078804B /* CoreData */,
@@ -424,6 +427,7 @@
 				D9C4C43B1E7551F40078804B /* GgLocation+CoreDataClass.swift in Sources */,
 				D9C4C43D1E7551F40078804B /* GgLocationList+CoreDataClass.swift in Sources */,
 				D9C4C43F1E7551F40078804B /* googlePlaceSearch.xcdatamodeld in Sources */,
+				D9C4C4881E789B220078804B /* UINavigationController+Extensions.swift in Sources */,
 				D9C4C4461E75526E0078804B /* GeneralExtensions.swift in Sources */,
 				D9C4C4861E77ACB40078804B /* MapViewComponents.swift in Sources */,
 				D9F4D0751E738EEC005BD910 /* ViewController.swift in Sources */,
